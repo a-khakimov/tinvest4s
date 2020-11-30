@@ -1,14 +1,14 @@
 package github.ainr.tinvest4s.websocket.client
 
 import cats.effect.{Concurrent, ConcurrentEffect, ContextShift, Timer}
+import cats.syntax.functor._
 import github.ainr.tinvest4s.websocket.request.{CandleRequest, InstrumentInfoRequest, OrderBookRequest}
 import github.ainr.tinvest4s.websocket.response.{CandleResponse, InstrumentInfoResponse, OrderBookResponse, TInvestWSResponse}
-import io.circe.syntax.EncoderOps
-import cats.syntax.functor._
-import io.circe.{Decoder}
 import io.circe.generic.auto._
+import io.circe.parser.decode
+import io.circe.syntax.EncoderOps
+import io.circe.{Decoder, Encoder}
 import org.http4s.client.jdkhttpclient.{WSConnectionHighLevel, WSFrame}
-
 
 trait TInvestWSApi[F[_]] {
   def subscribeCandle(figi: String, interval: String): F[Unit] /* interval ("1min","2min","3min","5min","10min","15min","30min","hour","2hour","4hour","day","week","month") */
@@ -19,12 +19,15 @@ trait TInvestWSApi[F[_]] {
   def unsubscribeOrderbook(figi: String, depth: Int): F[Unit]
   def unsubscribeInstrumentInfo(figi: String): F[Unit]
 
-  def listen(): F[List[String]]
+  def listen(): F[List[TInvestWSResponse]]
 }
 
+trait TInvestWSHandler[F[_]] {
+  def handle(response: TInvestWSResponse): F[Unit]
+}
 
 class TInvestWSApiHttp4s[F[_] : ConcurrentEffect: Timer: ContextShift : Concurrent]
-(connection: WSConnectionHighLevel[F])
+(connection: WSConnectionHighLevel[F], handler: TInvestWSHandler[F])
   extends TInvestWSApi[F] {
 
   override def subscribeCandle(figi: String, interval: String): F[Unit] = {
@@ -75,23 +78,26 @@ class TInvestWSApiHttp4s[F[_] : ConcurrentEffect: Timer: ContextShift : Concurre
       }
   }
 
-  def listen(): F[List[String]] = {
+  def listen(): F[List[TInvestWSResponse]] = {
     connection
       .receiveStream
-      .collect { case WSFrame.Text(str, _) => {
-          //handler(str)
-          str
-        }
-      }
-      .evalTap(_ => connection.sendPing())
+      .collect { case WSFrame.Text(str, _) => decode[TInvestWSResponse](str) }
+      .collect { case Right(response) => response }
+      .evalTap { data => handler.handle(data) }
       .compile
       .toList
   }
 
-  implicit val decodeEvent: Decoder[TInvestWSResponse] =
+  implicit val decodeTInvestWSResponse: Decoder[TInvestWSResponse] =
     List[Decoder[TInvestWSResponse]](
       Decoder[CandleResponse].widen,
       Decoder[OrderBookResponse].widen,
       Decoder[InstrumentInfoResponse].widen,
     ).reduceLeft(_ or _)
+
+  implicit val encodeTInvestWSResponse: Encoder[TInvestWSResponse] = Encoder.instance {
+    case cr @ CandleResponse(_, _, _) => cr.asJson
+    case or @ OrderBookResponse(_, _, _) => or.asJson
+    case ir @ InstrumentInfoResponse(_, _, _) => ir.asJson
+  }
 }
