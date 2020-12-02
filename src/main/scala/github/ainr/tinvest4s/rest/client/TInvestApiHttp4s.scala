@@ -3,7 +3,8 @@ package github.ainr.tinvest4s.rest.client
 import cats.MonadError
 import cats.effect.{ConcurrentEffect, ContextShift}
 import cats.implicits._
-import github.ainr.tinvest4s.models.{EmptyResponse, LimitOrderRequest, MarketInstrumentListResponse, MarketOrderRequest, OrderbookResponse, OrdersResponse, PortfolioResponse, TInvestError}
+import github.ainr.tinvest4s.models.CandleResolution.CandleResolution
+import github.ainr.tinvest4s.models.{CandlesResponse, EmptyResponse, LimitOrderRequest, MarketInstrumentListResponse, MarketOrderRequest, OrderbookResponse, OrdersResponse, PortfolioResponse, TInvestError}
 import io.circe.generic.auto._
 import org.http4s.Status.Successful
 import org.http4s.circe.CirceEntityCodec.{circeEntityDecoder, circeEntityEncoder}
@@ -121,6 +122,23 @@ class TInvestApiHttp4s[F[_] : ConcurrentEffect: ContextShift](client: Client[F],
       } use {
         case Successful(resp) => resp.as[OrderbookResponse].map(Right(_).withLeft[TInvestError])
         case error => error.as[TInvestError].map(Left(_).withRight[OrderbookResponse])
+      }
+    } yield result
+  }
+
+  override def candles(figi: String,
+                       interval: CandleResolution,
+                       from: String,
+                       to: String): F[Either[TInvestError, CandlesResponse]] = {
+    for {
+      uri <- F.fromEither[Uri](Uri.fromString(s"$baseUrl/market/candles?figi=$figi&interval=$interval&from=$from&to=$to"))
+      result <- client run {
+        baseRequest
+          .withMethod(Method.GET)
+          .withUri(uri)
+      } use {
+        case Successful(resp) => resp.as[CandlesResponse].map(Right(_).withLeft[TInvestError])
+        case error => error.as[TInvestError].map(Left(_).withRight[CandlesResponse])
       }
     } yield result
   }

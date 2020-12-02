@@ -1,6 +1,7 @@
 package github.ainr.tinvest4s.rest.client
 
-import github.ainr.tinvest4s.models.{EmptyResponse, LimitOrderRequest, MarketInstrumentListResponse, MarketOrderRequest, OrdersResponse, OrderbookResponse, PortfolioResponse, TInvestError}
+import github.ainr.tinvest4s.models.CandleResolution.CandleResolution
+import github.ainr.tinvest4s.models.{CandlesResponse, EmptyResponse, LimitOrderRequest, MarketInstrumentListResponse, MarketOrderRequest, OrderbookResponse, OrdersResponse, PortfolioResponse, TInvestError}
 
 trait TInvestApi[F[_]] {
 
@@ -30,4 +31,7 @@ trait TInvestApi[F[_]] {
 
   /* Получение стакана по FIGI */
   def orderbook(figi: String, depth: Int): F[Either[TInvestError, OrderbookResponse]]
+
+  /* Получение исторических свечей по FIGI */
+  def candles(figi: String, interval: CandleResolution, from: String, to: String): F[Either[TInvestError, CandlesResponse]]
 }
