@@ -1,30 +1,31 @@
 package github.ainr.tinvest4s.models
 
+import github.ainr.tinvest4s.models.Currency.Currency
+import github.ainr.tinvest4s.models.Operation.Operation
+import github.ainr.tinvest4s.models.OrderStatus.OrderStatus
+
 case class MarketOrderRequest(lots: Int, operation: String)
+
 case class LimitOrderRequest(lots: Int, operation: String, price: Double)
 
-case class OrdersResponse(trackingId: String, status: String, payload: PlacedLimitOrder)
+case class OrdersResponse(trackingId: String, status: String, payload: PlacedOrder)
 
-case class PlacedLimitOrder(orderId: String,
-                            operation: String, /* Buy, Sell */
-                            status: String, /* Статус заявки: New, PartiallyFill, Fill,
-                                                              Cancelled, Replaced, PendingCancel,
-                                                              Rejected, PendingReplace, PendingNew */
-                            rejectReason: Option[String],
-                            message: Option[String],
-                            requestedLots: Int,
-                            executedLots: Int,
-                            commission: Option[MoneyAmount])
+case class PlacedOrder(orderId: String,
+                       operation: Operation,
+                       status: OrderStatus,
+                       rejectReason: Option[String],
+                       message: Option[String],
+                       requestedLots: Int,
+                       executedLots: Int,
+                       commission: Option[MoneyAmount])
 
 case class Order(orderId: String,
                  figi: String,
-                 operation: String, /* Buy, Sell */
-                 status: String, /* Статус заявки: New, PartiallyFill, Fill,
-                                                   Cancelled, Replaced, PendingCancel,
-                                                   Rejected, PendingReplace, PendingNew */
+                 operation: Operation,
+                 status: OrderStatus,
                  requestedLots: Int,
                  executedLots: Int,
                  price: Double)
 
-case class MoneyAmount(currency: String, /* RUB, USD, EUR, GBP, HKD, CHF, JPY, CNY, TRY */
-                       value: Double)
+case class MoneyAmount(currency: Currency, value: Double)
+

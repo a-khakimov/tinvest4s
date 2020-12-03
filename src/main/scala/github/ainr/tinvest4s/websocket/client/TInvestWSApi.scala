@@ -2,6 +2,7 @@ package github.ainr.tinvest4s.websocket.client
 
 import cats.effect.{Concurrent, ConcurrentEffect, ContextShift, Timer}
 import cats.syntax.functor._
+import github.ainr.tinvest4s.models.CandleResolution.CandleResolution
 import github.ainr.tinvest4s.websocket.request.{CandleRequest, InstrumentInfoRequest, OrderBookRequest}
 import github.ainr.tinvest4s.websocket.response.{CandleResponse, InstrumentInfoResponse, OrderBookResponse, TInvestWSResponse}
 import io.circe.generic.auto._
@@ -11,11 +12,11 @@ import io.circe.{Decoder, Encoder}
 import org.http4s.client.jdkhttpclient.{WSConnectionHighLevel, WSFrame}
 
 trait TInvestWSApi[F[_]] {
-  def subscribeCandle(figi: String, interval: String): F[Unit] /* interval ("1min","2min","3min","5min","10min","15min","30min","hour","2hour","4hour","day","week","month") */
+  def subscribeCandle(figi: String, interval: CandleResolution): F[Unit]
   def subscribeOrderbook(figi: String, depth: Int): F[Unit] /* 0 < DEPTH <= 20 */
   def subscribeInstrumentInfo(figi: String): F[Unit]
 
-  def unsubscribeCandle(figi: String, interval: String): F[Unit]
+  def unsubscribeCandle(figi: String, interval: CandleResolution): F[Unit]
   def unsubscribeOrderbook(figi: String, depth: Int): F[Unit]
   def unsubscribeInstrumentInfo(figi: String): F[Unit]
 

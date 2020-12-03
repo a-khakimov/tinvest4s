@@ -6,6 +6,6 @@ case class OrderBookResponse(event: String,
                              payload: OrderBookPayload) extends TInvestWSResponse
 
 case class OrderBookPayload(depth: Int,
-                             bids: Seq[(Double, Double)], // Массив [Цена, количество] предложений цены
-                             asks: Seq[(Double, Double)], // Массив [Цена, количество] запросов цены
-                             figi: String)
+                            bids: Seq[(Double, Double)], // Массив [Цена, количество] предложений цены
+                            asks: Seq[(Double, Double)], // Массив [Цена, количество] запросов цены
+                            figi: String)
