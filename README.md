@@ -23,7 +23,7 @@ lazy val root = (project in file(".")).dependsOn(tinvest4s)
 
 ## Пример использования
 
-Клиенты разделены на REST и Streaming.
+Клиенты разделены на REST и Streaming. Примеры использования можно найти в директори `examples`.
 
 ### REST-клиент
 
