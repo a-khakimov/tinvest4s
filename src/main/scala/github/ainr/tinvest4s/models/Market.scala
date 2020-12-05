@@ -1,6 +1,7 @@
 package github.ainr.tinvest4s.models
 
 import github.ainr.tinvest4s.models.CandleResolution.CandleResolution
+import github.ainr.tinvest4s.models.TradeStatus.TradeStatus
 
 
 case class MarketInstrumentListResponse(trackingId: String, status: String, payload: MarketInstrumentList)
@@ -24,7 +25,7 @@ case class Orderbook(figi: String,
                      depth: Int,
                      bids: List[OrderResponse],
                      asks: List[OrderResponse],
-                     tradeStatus: String,
+                     tradeStatus: TradeStatus,
                      minPriceIncrement: Double, // Шаг цены
                      faceValue: Option[Double], // Номинал для облигаций
                      lastPrice: Option[Double],
