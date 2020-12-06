@@ -1,5 +1,8 @@
 package github.ainr.tinvest4s.models
 
+/**
+ *
+ */
 object OrderStatus {
   type OrderStatus = String
   val New = "New"

@@ -11,19 +11,80 @@ import io.circe.syntax.EncoderOps
 import io.circe.{Decoder, Encoder}
 import org.http4s.client.jdkhttpclient.{WSConnectionHighLevel, WSFrame}
 
+/**
+ * Класс для взаимодейсвия со Streaming OpenApi Тинькофф Инвестиций
+ * @see [[https://tinkoffcreditsystems.github.io/invest-openapi/marketdata/]]
+ * @author [[https://github.com/a-khakimov/]]
+ */
 trait TInvestWSApi[F[_]] {
+
+  /**
+   * Подписка на свечи
+   * @param figi FIGI
+   * @param interval Интервал
+   * */
   def subscribeCandle(figi: String, interval: CandleResolution): F[Unit]
-  def subscribeOrderbook(figi: String, depth: Int): F[Unit] /* 0 < DEPTH <= 20 */
+
+  /**
+   * Подписка на стакан
+   * @param figi FIGI
+   * @param depth Глубина стакана (0 < depth <= 20)
+   * */
+  def subscribeOrderbook(figi: String, depth: Int): F[Unit]
+
+  /**
+   * Подписка на информацию об инструменте
+   * @param figi FIGI
+   * */
   def subscribeInstrumentInfo(figi: String): F[Unit]
 
+  /**
+   * Отписка от свечей
+   * @param figi FIGI
+   * @param interval Интервал
+   * */
   def unsubscribeCandle(figi: String, interval: CandleResolution): F[Unit]
+
+  /**
+   * Отписка от стакана
+   * @param figi FIGI
+   * @param depth Глубина стакана (0 < depth <= 20)
+   * */
   def unsubscribeOrderbook(figi: String, depth: Int): F[Unit]
+
+  /**
+   * Отписка от информации об инструменте
+   * @param figi FIGI
+   * */
   def unsubscribeInstrumentInfo(figi: String): F[Unit]
 
+  /**
+   * Начать выполнение клиента
+   * */
   def listen(): F[List[TInvestWSResponse]]
 }
 
+/**
+ * Класс для получения и обработки событий со Streaming сервера.
+ * Пример использования:
+ *
+ * {{{
+ *  class StreamingEvents[F[_]: Sync] extends TInvestWSHandler[F] {
+ *    override def handle(response: TInvestWSResponse): F[Unit] = {
+ *      response match {
+ *        case CandleResponse(_, _, candle) => ???
+ *        case OrderBookResponse(_, _, orderBook) => ???
+ *        case InstrumentInfoResponse(_, _, instrumentInfo) => ???
+ *      }
+ *    }
+ *  }
+ * }}}
+ */
 trait TInvestWSHandler[F[_]] {
+  /**
+   * Метод будет вызван по наступлению события
+   * @param response Параметр будет содержать необходимые данные
+   * */
   def handle(response: TInvestWSResponse): F[Unit]
 }
 

@@ -1,5 +1,8 @@
 package github.ainr.tinvest4s.models
 
+/**
+ *
+ */
 object Currency {
   type Currency = String
   val RUB = "RUB"

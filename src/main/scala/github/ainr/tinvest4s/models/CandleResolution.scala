@@ -1,5 +1,8 @@
 package github.ainr.tinvest4s.models
 
+/**
+ *
+ */
 object CandleResolution {
   type CandleResolution = String
   val `1min` = "1min"

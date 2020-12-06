@@ -12,7 +12,11 @@ import org.http4s.client.Client
 import org.http4s.headers.{Accept, Authorization}
 import org.http4s._
 
-
+/**
+  *
+  * @author Ainur Khakimov
+  * @todo Добавить параметр для установки режима sandbox и биржевой торговли
+  */
 class TInvestApiHttp4s[F[_] : ConcurrentEffect: ContextShift](client: Client[F],
                                                               token: String,
                                                               sandbox: Boolean = true)(
@@ -52,6 +56,11 @@ class TInvestApiHttp4s[F[_] : ConcurrentEffect: ContextShift](client: Client[F],
     } yield result
   }
 
+  /**
+   *  Создать лимитную заявку
+   *  @param figi FIGI
+   *  @param request Параметры лимитной заявки
+   *  */
   override def limitOrder(figi: String, request: LimitOrderRequest): F[Either[TInvestError, OrdersResponse]] = {
     for {
       uri <- F.fromEither[Uri](Uri.fromString(s"$baseUrl/orders/limit-order?figi=${figi}"))

@@ -1,14 +1,31 @@
 package github.ainr.tinvest4s.websocket.response
 
+/**
+ * Формат ответа от Streaming сервера на подписку на свечи
+ * @param event Название события
+ * @param time Время в формате RFC3339Nano
+ * @param payload Структура свечи
+ */
 case class CandleResponse(event: String,
-                          time: String, // RFC3339Nano
+                          time: String,
                           payload: CandlePayload) extends TInvestWSResponse
 
-case class CandlePayload(o: Double, // Цена открытия
-                          c: Double, // Цена закрытия
-                          h: Double, // Наибольшая цена
-                          l: Double, // Наименьшая цена
-                          v: Double, // Объем торгов
-                          time: String, // RFC3339
-                          interval: String,
-                          figi: String)
+/**
+ * Структура свечи
+ * @param o Цена открытия
+ * @param c Цена закрытия
+ * @param h Наибольшая цена
+ * @param l Наименьшая цена
+ * @param v Объем торгов
+ * @param time RFC3339
+ * @param interval Интервал
+ * @param figi FIGI
+ */
+case class CandlePayload(o: Double,
+                         c: Double,
+                         h: Double,
+                         l: Double,
+                         v: Double,
+                         time: String,
+                         interval: String,
+                         figi: String)

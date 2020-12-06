@@ -1,7 +1,33 @@
 package github.ainr.tinvest4s.models
 
+/**
+ *
+ * @param trackingId
+ * @param payload
+ * @param status
+ */
 case class PortfolioResponse(trackingId: String, payload: Portfolio, status: String)
+
+/**
+ *
+ * @param positions
+ */
 case class Portfolio(positions: Seq[PortfolioPosition])
+
+/**
+ *
+ * @param figi
+ * @param ticker
+ * @param isin
+ * @param instrumentType
+ * @param balance
+ * @param blocked
+ * @param expectedYield
+ * @param lots
+ * @param averagePositionPrice
+ * @param averagePositionPriceNoNkd
+ * @param name
+ */
 case class PortfolioPosition(
   figi: String,
   ticker: Option[String],
