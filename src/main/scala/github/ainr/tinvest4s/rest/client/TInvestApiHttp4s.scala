@@ -4,6 +4,7 @@ import cats.MonadError
 import cats.effect.{ConcurrentEffect, ContextShift}
 import cats.implicits._
 import github.ainr.tinvest4s.models.CandleResolution.CandleResolution
+import github.ainr.tinvest4s.models.FIGI.FIGI
 import github.ainr.tinvest4s.models.{CandlesResponse, EmptyResponse, LimitOrderRequest, MarketInstrumentListResponse, MarketOrderRequest, OrderbookResponse, OrdersResponse, Payload, PortfolioResponse, TInvestError}
 import io.circe.generic.auto._
 import org.http4s.Status.Successful
@@ -73,7 +74,7 @@ class TInvestApiHttp4s[F[_] : ConcurrentEffect: ContextShift](client: Client[F],
    *  @param figi FIGI
    *  @param request Параметры лимитной заявки
    *  */
-  override def limitOrder(figi: String, request: LimitOrderRequest): F[Either[TInvestError, OrdersResponse]] = {
+  override def limitOrder(figi: FIGI, request: LimitOrderRequest): F[Either[TInvestError, OrdersResponse]] = {
     Uri.fromString(s"$baseUrl/orders/limit-order?figi=$figi") match {
       case Left(e) => Left(TInvestError("", "Wrong url", Payload(Some(e.details), None))).withRight[OrdersResponse].pure[F]
       case Right(uri) => {
@@ -92,7 +93,7 @@ class TInvestApiHttp4s[F[_] : ConcurrentEffect: ContextShift](client: Client[F],
     }
   }
 
-  override def marketOrder(figi: String, request: MarketOrderRequest): F[Either[TInvestError, OrdersResponse]] = {
+  override def marketOrder(figi: FIGI, request: MarketOrderRequest): F[Either[TInvestError, OrdersResponse]] = {
     Uri.fromString(s"$baseUrl/orders/market-order?figi=$figi") match {
       case Left(e) => Left(TInvestError("", "Wrong url", Payload(Some(e.details), None))).withRight[OrdersResponse].pure[F]
       case Right(uri) => {
@@ -145,7 +146,7 @@ class TInvestApiHttp4s[F[_] : ConcurrentEffect: ContextShift](client: Client[F],
     getMarketInstrumentList("currencies")
   }
 
-  override def orderbook(figi: String, depth: Int): F[Either[TInvestError, OrderbookResponse]] = {
+  override def orderbook(figi: FIGI, depth: Int): F[Either[TInvestError, OrderbookResponse]] = {
     Uri.fromString(s"$baseUrl/market/orderbook?figi=$figi&depth=$depth") match {
       case Left(e) => Left(TInvestError("", "Wrong url", Payload(Some(e.details), None))).withRight[OrderbookResponse].pure[F]
       case Right(uri) => {
@@ -163,7 +164,7 @@ class TInvestApiHttp4s[F[_] : ConcurrentEffect: ContextShift](client: Client[F],
     }
   }
 
-  override def candles(figi: String,
+  override def candles(figi: FIGI,
                        interval: CandleResolution,
                        from: String,
                        to: String): F[Either[TInvestError, CandlesResponse]] = {

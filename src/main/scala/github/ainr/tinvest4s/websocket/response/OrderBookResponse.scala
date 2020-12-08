@@ -1,7 +1,10 @@
 package github.ainr.tinvest4s.websocket.response
 
+import github.ainr.tinvest4s.models.FIGI.FIGI
+
 /**
  * Формат ответа от Streaming сервера на подписку на стакан
+ *
  * @param event Название события
  * @param time Время в формате RFC3339Nano
  * @param payload Структура со стаканом
@@ -20,4 +23,4 @@ case class OrderBookResponse(event: String,
 case class OrderBookPayload(depth: Int,
                             bids: Seq[(Double, Double)],
                             asks: Seq[(Double, Double)],
-                            figi: String)
+                            figi: FIGI)

@@ -3,6 +3,7 @@ package github.ainr.tinvest4s.websocket.client
 import cats.effect.{Concurrent, ConcurrentEffect, ContextShift, Timer}
 import cats.syntax.functor._
 import github.ainr.tinvest4s.models.CandleResolution.CandleResolution
+import github.ainr.tinvest4s.models.FIGI.FIGI
 import github.ainr.tinvest4s.websocket.request.{CandleRequest, InstrumentInfoRequest, OrderBookRequest}
 import github.ainr.tinvest4s.websocket.response.{CandleResponse, InstrumentInfoResponse, OrderBookResponse, TInvestWSResponse}
 import io.circe.generic.auto._
@@ -23,40 +24,40 @@ trait TInvestWSApi[F[_]] {
    * @param figi FIGI
    * @param interval Интервал
    * */
-  def subscribeCandle(figi: String, interval: CandleResolution): F[Unit]
+  def subscribeCandle(figi: FIGI, interval: CandleResolution): F[Unit]
 
   /**
    * Подписка на стакан
    * @param figi FIGI
    * @param depth Глубина стакана (0 < depth <= 20)
    * */
-  def subscribeOrderbook(figi: String, depth: Int): F[Unit]
+  def subscribeOrderbook(figi: FIGI, depth: Int): F[Unit]
 
   /**
    * Подписка на информацию об инструменте
    * @param figi FIGI
    * */
-  def subscribeInstrumentInfo(figi: String): F[Unit]
+  def subscribeInstrumentInfo(figi: FIGI): F[Unit]
 
   /**
    * Отписка от свечей
    * @param figi FIGI
    * @param interval Интервал
    * */
-  def unsubscribeCandle(figi: String, interval: CandleResolution): F[Unit]
+  def unsubscribeCandle(figi: FIGI, interval: CandleResolution): F[Unit]
 
   /**
    * Отписка от стакана
    * @param figi FIGI
    * @param depth Глубина стакана (0 < depth <= 20)
    * */
-  def unsubscribeOrderbook(figi: String, depth: Int): F[Unit]
+  def unsubscribeOrderbook(figi: FIGI, depth: Int): F[Unit]
 
   /**
    * Отписка от информации об инструменте
    * @param figi FIGI
    * */
-  def unsubscribeInstrumentInfo(figi: String): F[Unit]
+  def unsubscribeInstrumentInfo(figi: FIGI): F[Unit]
 
   /**
    * Начать выполнение клиента
@@ -92,7 +93,7 @@ class TInvestWSApiHttp4s[F[_] : ConcurrentEffect: Timer: ContextShift : Concurre
 (connection: WSConnectionHighLevel[F], handler: TInvestWSHandler[F])
   extends TInvestWSApi[F] {
 
-  override def subscribeCandle(figi: String, interval: String): F[Unit] = {
+  override def subscribeCandle(figi: FIGI, interval: String): F[Unit] = {
     connection.send {
         WSFrame.Text {
           CandleRequest("candle:subscribe", figi, interval).asJson.noSpaces
@@ -100,7 +101,7 @@ class TInvestWSApiHttp4s[F[_] : ConcurrentEffect: Timer: ContextShift : Concurre
       }
   }
 
-  override def subscribeOrderbook(figi: String, depth: Int): F[Unit] = {
+  override def subscribeOrderbook(figi: FIGI, depth: Int): F[Unit] = {
     connection.send {
         WSFrame.Text {
           OrderBookRequest("orderbook:subscribe", figi, depth).asJson.noSpaces
@@ -108,7 +109,7 @@ class TInvestWSApiHttp4s[F[_] : ConcurrentEffect: Timer: ContextShift : Concurre
       }
   }
 
-  override def subscribeInstrumentInfo(figi: String): F[Unit] = {
+  override def subscribeInstrumentInfo(figi: FIGI): F[Unit] = {
     connection.send {
         WSFrame.Text {
           InstrumentInfoRequest("instrument_info:subscribe", figi).asJson.noSpaces
@@ -116,7 +117,7 @@ class TInvestWSApiHttp4s[F[_] : ConcurrentEffect: Timer: ContextShift : Concurre
       }
   }
 
-  override def unsubscribeCandle(figi: String, interval: String): F[Unit] = {
+  override def unsubscribeCandle(figi: FIGI, interval: String): F[Unit] = {
     connection.send {
         WSFrame.Text {
           CandleRequest("candle:subscribe", figi, interval).asJson.noSpaces
@@ -124,7 +125,7 @@ class TInvestWSApiHttp4s[F[_] : ConcurrentEffect: Timer: ContextShift : Concurre
       }
   }
 
-  override def unsubscribeOrderbook(figi: String, depth: Int): F[Unit] = {
+  override def unsubscribeOrderbook(figi: FIGI, depth: Int): F[Unit] = {
     connection.send {
         WSFrame.Text {
           OrderBookRequest("orderbook:unsubscribe", figi, depth).asJson.noSpaces
@@ -132,7 +133,7 @@ class TInvestWSApiHttp4s[F[_] : ConcurrentEffect: Timer: ContextShift : Concurre
       }
   }
 
-  override def unsubscribeInstrumentInfo(figi: String): F[Unit] = {
+  override def unsubscribeInstrumentInfo(figi: FIGI): F[Unit] = {
     connection.send {
         WSFrame.Text {
           InstrumentInfoRequest("instrument_info:unsubscribe", figi).asJson.noSpaces

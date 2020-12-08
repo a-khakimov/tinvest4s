@@ -1,7 +1,10 @@
 package github.ainr.tinvest4s.websocket.response
 
+import github.ainr.tinvest4s.models.FIGI.FIGI
+
 /**
  * Формат ответа от Streaming сервера на подписку на свечи
+ *
  * @param event Название события
  * @param time Время в формате RFC3339Nano
  * @param payload Структура свечи
@@ -28,4 +31,4 @@ case class CandlePayload(o: Double,
                          v: Double,
                          time: String,
                          interval: String,
-                         figi: String)
+                         figi: FIGI)

@@ -1,6 +1,7 @@
 package github.ainr.tinvest4s.rest.client
 
 import github.ainr.tinvest4s.models.CandleResolution.CandleResolution
+import github.ainr.tinvest4s.models.FIGI.FIGI
 import github.ainr.tinvest4s.models.{CandlesResponse, EmptyResponse, LimitOrderRequest, MarketInstrumentListResponse, MarketOrderRequest, OrderbookResponse, OrdersResponse, PortfolioResponse, TInvestError}
 
 
@@ -27,7 +28,7 @@ trait TInvestApi[F[_]] {
    *  @return OrdersResponse - Успешный ответ
    *          TInvestError - Ошибка
    *  */
-  def limitOrder(figi: String, request: LimitOrderRequest): F[Either[TInvestError, OrdersResponse]]
+  def limitOrder(figi: FIGI, request: LimitOrderRequest): F[Either[TInvestError, OrdersResponse]]
 
   /**
    * Создание рыночной заявки
@@ -37,7 +38,7 @@ trait TInvestApi[F[_]] {
    * @return OrdersResponse - Успешный ответ
    *         TInvestError - Ошибка
    * */
-  def marketOrder(figi: String, request: MarketOrderRequest): F[Either[TInvestError, OrdersResponse]]
+  def marketOrder(figi: FIGI, request: MarketOrderRequest): F[Either[TInvestError, OrdersResponse]]
 
   /**
    * Отмена заявки
@@ -73,7 +74,7 @@ trait TInvestApi[F[_]] {
    * @param figi FIGI
    * @param depth Глубина стакана
    * */
-  def orderbook(figi: String, depth: Int): F[Either[TInvestError, OrderbookResponse]]
+  def orderbook(figi: FIGI, depth: Int): F[Either[TInvestError, OrderbookResponse]]
 
   /**
    * Получение исторических свечей по FIGI
@@ -82,5 +83,5 @@ trait TInvestApi[F[_]] {
    * @param from Начало временного промежутка
    * @param to Конец временного промежутка
    * */
-  def candles(figi: String, interval: CandleResolution, from: String, to: String): F[Either[TInvestError, CandlesResponse]]
+  def candles(figi: FIGI, interval: CandleResolution, from: String, to: String): F[Either[TInvestError, CandlesResponse]]
 }

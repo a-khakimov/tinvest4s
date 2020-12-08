@@ -1,5 +1,7 @@
 package github.ainr.tinvest4s.models
 
+import github.ainr.tinvest4s.models.FIGI.FIGI
+
 /**
  *
  * @param trackingId
@@ -29,7 +31,7 @@ case class Portfolio(positions: Seq[PortfolioPosition])
  * @param name
  */
 case class PortfolioPosition(
-  figi: String,
+  figi: FIGI,
   ticker: Option[String],
   isin: Option[String],
   instrumentType: String,
