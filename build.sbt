@@ -22,6 +22,8 @@ libraryDependencies ++= Seq(
   "io.circe" %% "circe-generic-extras" % circeVersion,
 )
 
+sonarProperties := Sonar.properties
+
 scalacOptions ++= Seq(
   "-Xfatal-warnings",
   "-deprecation"
