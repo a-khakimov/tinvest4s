@@ -1,31 +1,50 @@
-name := "tinvest4s"
+import Dependencies._
 
-version := "0.1"
+ThisBuild / scalaVersion := "2.13.4"
+ThisBuild / version := "0.1"
+ThisBuild / organization := "dev.github.ainr"
+ThisBuild / organizationName := "ainr"
+ThisBuild / name := "tinvest4s"
 
-scalaVersion := "2.13.4"
+lazy val root = (project in file("."))
+  .settings(
+    name := "tinvest4s"
+  )
+  .aggregate(core, tests)
 
-lazy val circeVersion = "0.13.0"
-lazy val http4sVersion = "0.21.7"
 
-libraryDependencies ++= Seq(
-  "org.scalatest" %% "scalatest" % "3.2.0",
-  "org.typelevel" %% "cats-core" % "2.1.1",
-  "org.typelevel" %% "cats-effect" % "2.1.4",
-  "org.http4s" %% "http4s-dsl" % http4sVersion,
-  "org.http4s" %% "http4s-circe" % http4sVersion,
-  "org.http4s" %% "http4s-blaze-client" % http4sVersion,
-  "org.http4s" %% "http4s-jdk-http-client" % "0.3.1",
-  "io.circe" %% "circe-core" % circeVersion,
-  "io.circe" %% "circe-parser" % circeVersion,
-  "io.circe" %% "circe-generic" % circeVersion,
-  "io.circe" %% "circe-literal" % circeVersion,
-  "io.circe" %% "circe-generic-extras" % circeVersion,
-)
+lazy val tests = (project in file("modules/tests"))
+  .configs(IntegrationTest)
+  .settings(
+    name := "tinvest4s-test-suite",
+    scalacOptions ++= List("-Ymacro-annotations", "-Yrangepos", "-Wconf:cat=unused:info"),
+    testFrameworks += new TestFramework("weaver.framework.CatsEffect"),
+    Defaults.itSettings
+  )
+  .dependsOn(core)
 
-sonarProperties := Sonar.properties
+lazy val core = (project in file("modules/core"))
+  .settings(
+    name := "tinvest4s",
+    sonarProperties := Sonar.properties,
+    scalacOptions ++= Seq(
+      "-Xfatal-warnings",
+      "-deprecation"
+    ),
+    libraryDependencies ++= Seq(
+      Libraries.catsCore,
+      Libraries.catsEffect,
+      Libraries.circeCore,
+      Libraries.circeGeneric,
+      Libraries.circeGenericExtras,
+      Libraries.circeLiteral,
+      Libraries.circeParser,
+      Libraries.http4sBlazeClient,
+      Libraries.http4sCirce,
+      Libraries.http4sDsl,
+      Libraries.http4sJdkHttpClient,
+      Libraries.scalatest
+    )
+  )
 
-scalacOptions ++= Seq(
-  "-Xfatal-warnings",
-  "-deprecation"
-)
 
