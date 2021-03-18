@@ -1,6 +1,6 @@
-package github.ainr.tinvest4s.models
+package github.ainr.tinvest4s.domain
 
-import github.ainr.tinvest4s.models.FIGI.FIGI
+import github.ainr.tinvest4s.domain.schemas.{FIGI, TrackingId}
 
 /**
  *
@@ -8,7 +8,7 @@ import github.ainr.tinvest4s.models.FIGI.FIGI
  * @param payload
  * @param status
  */
-case class PortfolioResponse(trackingId: String, payload: Portfolio, status: String)
+case class PortfolioResponse(trackingId: TrackingId, payload: Portfolio, status: String)
 
 /**
  *

@@ -1,8 +1,7 @@
-package github.ainr.tinvest4s.models
+package github.ainr.tinvest4s.domain
 
-import github.ainr.tinvest4s.models.CandleResolution.CandleResolution
-import github.ainr.tinvest4s.models.FIGI.FIGI
-import github.ainr.tinvest4s.models.TradeStatus.TradeStatus
+import github.ainr.tinvest4s.domain.TradeStatus.TradeStatus
+import github.ainr.tinvest4s.domain.schemas.{CandleResolution, FIGI, Price, TrackingId}
 
 
 case class MarketInstrumentListResponse(trackingId: String, status: String, payload: MarketInstrumentList)
@@ -76,7 +75,7 @@ case class Orderbook(figi: FIGI,
  * @param price
  * @param quantity
  */
-case class OrderResponse(price: Double, quantity: Int)
+case class OrderResponse(price: Price, quantity: Int)
 
 /**
  *
@@ -84,7 +83,7 @@ case class OrderResponse(price: Double, quantity: Int)
  * @param status
  * @param payload
  */
-case class CandlesResponse(trackingId: String, status: String, payload: Candles)
+case class CandlesResponse(trackingId: TrackingId, status: String, payload: Candles)
 
 /**
  *

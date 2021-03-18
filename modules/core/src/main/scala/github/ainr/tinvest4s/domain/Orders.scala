@@ -1,8 +1,6 @@
-package github.ainr.tinvest4s.models
+package github.ainr.tinvest4s.domain
 
-import github.ainr.tinvest4s.models.Currency.Currency
-import github.ainr.tinvest4s.models.Operation.Operation
-import github.ainr.tinvest4s.models.OrderStatus.OrderStatus
+import github.ainr.tinvest4s.domain.schemas._
 
 /**
  *
@@ -17,7 +15,7 @@ case class MarketOrderRequest(lots: Int, operation: Operation)
  * @param operation
  * @param price
  */
-case class LimitOrderRequest(lots: Int, operation: Operation, price: Double)
+case class LimitOrderRequest(lots: Int, operation: Operation, price: Price)
 
 /**
  *
@@ -58,17 +56,11 @@ case class PlacedOrder(orderId: String,
  * @param price
  */
 case class Order(orderId: String,
-                 figi: String,
+                 figi: FIGI,
                  operation: Operation,
                  status: OrderStatus,
                  requestedLots: Int,
                  executedLots: Int,
-                 price: Double)
+                 price: Price)
 
-/**
- *
- * @param currency
- * @param value
- */
 case class MoneyAmount(currency: Currency, value: Double)
-

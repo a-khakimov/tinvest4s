@@ -12,14 +12,13 @@ lazy val root = (project in file("."))
   )
   .aggregate(core, tests)
 
-
 lazy val tests = (project in file("modules/tests"))
-  .configs(IntegrationTest)
   .settings(
     name := "tinvest4s-test-suite",
-    scalacOptions ++= List("-Ymacro-annotations", "-Yrangepos", "-Wconf:cat=unused:info"),
-    testFrameworks += new TestFramework("weaver.framework.CatsEffect"),
-    Defaults.itSettings
+    libraryDependencies ++= Seq(
+      Libraries.scalatest,
+      Libraries.scalamock
+    )
   )
   .dependsOn(core)
 
@@ -43,8 +42,6 @@ lazy val core = (project in file("modules/core"))
       Libraries.http4sCirce,
       Libraries.http4sDsl,
       Libraries.http4sJdkHttpClient,
-      Libraries.scalatest
+      Libraries.newtype
     )
   )
-
-

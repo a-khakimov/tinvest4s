@@ -5,14 +5,18 @@ object Dependencies {
   object V {
     val http4s              = "0.21.7"
     val circe               = "0.13.0"
-    val scalatest           = "3.2.0"
     val cats                = "2.1.1"
     val http4sJdkHttpClient = "0.3.1"
+    val newtype             = "0.4.3"
+    val scalatest           = "3.2.0"
+    val scalamock           = "5.1.0"
   }
 
   object Libraries {
 
+    val newtype             = "io.estatico"   %% "newtype" % V.newtype
     val scalatest           = "org.scalatest" %% "scalatest" % V.scalatest
+    val scalamock           = "org.scalamock" %% "scalamock" % V.scalamock
 
     val catsCore            = "org.typelevel" %% "cats-core" % V.cats
     val catsEffect          = "org.typelevel" %% "cats-effect" % V.cats

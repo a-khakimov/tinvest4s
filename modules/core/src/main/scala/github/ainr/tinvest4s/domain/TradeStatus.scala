@@ -1,4 +1,4 @@
-package github.ainr.tinvest4s.models
+package github.ainr.tinvest4s.domain
 
 /**
  *

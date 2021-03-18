@@ -1,4 +1,4 @@
-package github.ainr.tinvest4s.models
+package github.ainr.tinvest4s.domain
 
 /**
  *
@@ -6,7 +6,7 @@ package github.ainr.tinvest4s.models
  * @param status
  * @param payload
  */
-case class TInvestError(trackingId: String, status: String, payload: Payload)
+case class InvestClientError(trackingId: String, status: String, payload: Payload) extends Throwable
 case class Payload(message: Option[String], code: Option[String])
 
 case class EmptyPayload()
