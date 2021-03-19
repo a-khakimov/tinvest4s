@@ -31,17 +31,12 @@ lazy val core = (project in file("modules/core"))
       "-deprecation"
     ),
     libraryDependencies ++= Seq(
-      Libraries.catsCore,
-      Libraries.catsEffect,
       Libraries.circeCore,
       Libraries.circeGeneric,
       Libraries.circeGenericExtras,
       Libraries.circeLiteral,
       Libraries.circeParser,
-      Libraries.http4sBlazeClient,
-      Libraries.http4sCirce,
-      Libraries.http4sDsl,
-      Libraries.http4sJdkHttpClient,
-      Libraries.newtype
+      Libraries.newtype,
+      Libraries.`httpclient-backend-zio`
     )
   )

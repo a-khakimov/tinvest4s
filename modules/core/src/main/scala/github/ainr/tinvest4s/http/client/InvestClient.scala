@@ -10,7 +10,7 @@ import github.ainr.tinvest4s.domain._
  * @author [[https://github.com/a-khakimov/]]
  */
 
-trait TinkoffInvestClient[F[_]] {
+trait InvestClient[F[_]] {
 
   /**
    * Получить портфель клиента
@@ -18,7 +18,7 @@ trait TinkoffInvestClient[F[_]] {
    * @return PortfolioResponse - Успешный ответ
    *         TInvestError - Ошибка
    * */
-  def getPortfolio: F[Either[InvestClientError, PortfolioResponse]]
+  def portfolio: F[Either[InvestClientError, PortfolioResponse]]
 
   /**
    * Создать лимитную заявку

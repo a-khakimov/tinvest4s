@@ -10,9 +10,12 @@ object Dependencies {
     val newtype             = "0.4.3"
     val scalatest           = "3.2.0"
     val scalamock           = "5.1.0"
+    val `httpclient-backend-zio`  = "3.1.9"
   }
 
   object Libraries {
+
+    val `httpclient-backend-zio` = "com.softwaremill.sttp.client3" %% "httpclient-backend-zio" % V.`httpclient-backend-zio`
 
     val newtype             = "io.estatico"   %% "newtype" % V.newtype
     val scalatest           = "org.scalatest" %% "scalatest" % V.scalatest
