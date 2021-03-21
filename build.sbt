@@ -37,6 +37,9 @@ lazy val core = (project in file("modules/core"))
       Libraries.circeLiteral,
       Libraries.circeParser,
       Libraries.newtype,
-      Libraries.`httpclient-backend-zio`
+      Libraries.`sttp-backend-zio`,
+      Libraries.`sttp-client-core`,
+      Libraries.`sttp-client3-circe`,
+      Libraries.catsCore
     )
   )
