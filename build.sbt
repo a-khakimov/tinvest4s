@@ -1,4 +1,4 @@
-import Dependencies._
+import Dependencies.{Libraries, _}
 
 ThisBuild / scalaVersion := "2.13.4"
 ThisBuild / version := "0.1"
@@ -40,6 +40,9 @@ lazy val core = (project in file("modules/core"))
       Libraries.`sttp-backend-zio`,
       Libraries.`sttp-client-core`,
       Libraries.`sttp-client3-circe`,
-      Libraries.catsCore
+      Libraries.catsCore,
+      Libraries.zio_interop_cats,
+      Libraries.cats_effect,
+      Libraries.`async-http-client-backend-cats-ce2`
     )
   )

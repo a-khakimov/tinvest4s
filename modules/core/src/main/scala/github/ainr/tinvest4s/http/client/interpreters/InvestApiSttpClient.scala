@@ -9,7 +9,7 @@ import github.ainr.tinvest4s.http.client.InvestApiClient
 import github.ainr.tinvest4s.http.error.ErrorHandler
 import github.ainr.tinvest4s.http.json._
 import sttp.client3.circe.asJsonEither
-import sttp.client3.{SttpBackend, UriContext, basicRequest}
+import sttp.client3.{SttpBackend, _}
 
 final class InvestApiSttpClient[F[_]: Monad]
 (
@@ -27,7 +27,7 @@ final class InvestApiSttpClient[F[_]: Monad]
     }"
   }
 
-  override def portfolio(brokerAccountId: Option[BrokerAccountId] = None) = {
+  override def portfolio(brokerAccountId: Option[BrokerAccountId] = None): F[PortfolioResponse] = {
     val uri = brokerAccountId match {
       case Some(id) => uri"$baseUrl/portfolio?brokerAccountId=$id"
       case _ => uri"$baseUrl/portfolio"

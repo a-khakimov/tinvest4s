@@ -29,7 +29,8 @@ object schemas {
 
   sealed trait Operation { def name: String }
   case class Buy() extends Operation { override def name: String = "Buy" }
-  case class Sell() extends Operation { override def name: String = "Sell" }
+
+   case class Sell() extends Operation { override def name: String = "Sell" }
 
   case class OrderStatus(value: String)
   object OrderStatus {

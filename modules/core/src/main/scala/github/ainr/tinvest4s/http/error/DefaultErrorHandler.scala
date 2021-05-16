@@ -1,4 +1,5 @@
 package github.ainr.tinvest4s.http.error
+
 import cats.Monad
 import cats.implicits._
 import github.ainr.tinvest4s.domain.{InvestApiError, schemas}
