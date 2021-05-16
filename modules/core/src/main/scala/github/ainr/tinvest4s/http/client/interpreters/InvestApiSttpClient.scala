@@ -1,25 +1,27 @@
 package github.ainr.tinvest4s.http.client.interpreters
 
 import cats.Monad
-import cats.implicits._
+import cats.syntax.all._
 import github.ainr.tinvest4s.config.access.{InvestAccessConfig, Token}
-import github.ainr.tinvest4s.domain.InvestApiError
-import github.ainr.tinvest4s.domain.schemas.{BrokerAccountId, PortfolioResponse}
+import github.ainr.tinvest4s.domain.schemas.{Response => _, _}
+import github.ainr.tinvest4s.domain.{InvestApiError, schemas}
 import github.ainr.tinvest4s.http.client.InvestApiClient
 import github.ainr.tinvest4s.http.client.interpreters.InvestApiSttpClient.InvestApiResponseError
 import github.ainr.tinvest4s.http.json._
 import io.circe
-import sttp.client3.circe.asJsonEither
-import sttp.client3.{ResponseException, SttpBackend, _}
+import sttp.client3._
+import sttp.client3.circe._
 
 /*
 You should create custom error handler
 For example:
 ```scala
-error match {
-  case Left(DeserializationException(body, error)) => ??? // error deserializing response
-  case Left(HttpError(body, statusCode)) => ??? // http error
-  case Left(error) => ??? // other error
+def errorHandler(error: InvestApiResponseError): Unit = {
+  error match {
+    case DeserializationException(body, error) => ??? // error deserializing response
+    case HttpError(body, statusCode) => ???           // http error
+    case error => ???                                 // other error
+  }
 }
 ```
  */
@@ -65,10 +67,52 @@ final class InvestApiSttpClient[F[_]: Monad]
       .send(backend)
       .map(handle)
   }
+
+  override def limitOrder(
+    figi: FIGI,
+    lots: Lots,
+    operation: Operation,
+    price: Price,
+    brokerAccountId: Option[BrokerAccountId]
+  ): F[Option[OrderResponse]] = {
+    val uri = brokerAccountId
+      .map(id => uri"$baseUrl/orders/limit-order?figi=$figi&brokerAccountId=$id")
+      .getOrElse(uri"$baseUrl/orders/limit-order?figi=$figi")
+
+    val requestBody = LimitOrderRequest(lots, operation, price)
+
+    basicRequest
+      .post(uri)
+      .auth.bearer(token)
+      .body(requestBody)
+      .response(asJsonEither[InvestApiError, OrderResponse])
+      .send(backend)
+      .map(handle)
+  }
+
+  override def marketOrder(
+    figi: FIGI,
+    lots: Lots,
+    operation: Operation,
+    brokerAccountId: Option[BrokerAccountId]
+  ): F[Option[OrderResponse]] = {
+    val uri = brokerAccountId
+      .map(id => uri"$baseUrl/orders/market-order?figi=$figi&brokerAccountId=$id")
+      .getOrElse(uri"$baseUrl/orders/market-order?figi=$figi")
+
+    val requestBody = MarketOrderRequest(lots, operation)
+
+    basicRequest
+      .post(uri)
+      .auth.bearer(token)
+      .body(requestBody)
+      .response(asJsonEither[InvestApiError, OrderResponse])
+      .send(backend)
+      .map(handle)
+  }
 }
 
 object InvestApiSttpClient {
 
   type InvestApiResponseError = ResponseException[InvestApiError, circe.Error]
-
 }

@@ -10,7 +10,7 @@ object Dependencies {
     val newtype             = "0.4.3"
     val scalatest           = "3.2.0"
     val scalamock           = "5.1.0"
-    val sttp                = "3.1.9"
+    val sttp                = "3.3.3"
     val zio_interop_cats    = "3.0.2.0"
     val `async-http-client-backend-cats-ce2` = "3.3.3"
   }
