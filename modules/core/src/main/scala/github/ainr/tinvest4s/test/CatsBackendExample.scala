@@ -5,7 +5,7 @@ import cats.effect.{Concurrent, ContextShift, ExitCode, IO, IOApp, Resource, Syn
 import github.ainr.tinvest4s.config.access.InvestAccessConfig
 import github.ainr.tinvest4s.http.client.InvestApiClient
 import github.ainr.tinvest4s.http.client.interpreters.InvestApiSttpClient
-import github.ainr.tinvest4s.http.error.DefaultErrorHandler
+import github.ainr.tinvest4s.http.client.interpreters.InvestApiSttpClient.InvestApiResponseError
 import sttp.client3.asynchttpclient.cats.AsyncHttpClientCatsBackend
 
 object CatsBackendExample extends IOApp {
@@ -21,9 +21,9 @@ object CatsBackendExample extends IOApp {
 
   def createClient[F[_]: Sync: Monad: Concurrent: ContextShift](): Resource[F, InvestApiClient[F]] = {
     val config = InvestAccessConfig(token = "t.kkxK5DlAIBodw5moQBIDF1zKSMD-Ov4Kfr5hrBSrTRaxOcRTaeSVKYIdiZXsbSuakLyq9fUK0NUe672oItp6xA")
-    val errorHandler = new DefaultErrorHandler[F]()
+    val errorHandler: InvestApiResponseError => Unit = _ => ()
     AsyncHttpClientCatsBackend.resource().map {
-      backend => new InvestApiSttpClient[F](config, backend, errorHandler)
+      backend => new InvestApiSttpClient[F](config, backend)(errorHandler)
     }
   }
 }

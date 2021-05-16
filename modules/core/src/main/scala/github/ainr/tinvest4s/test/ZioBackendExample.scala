@@ -3,7 +3,6 @@ package github.ainr.tinvest4s.test
 import cats.implicits.catsStdShowForString
 import github.ainr.tinvest4s.config.access.InvestAccessConfig
 import github.ainr.tinvest4s.http.client.interpreters.InvestApiSttpClient
-import github.ainr.tinvest4s.http.error.DefaultErrorHandler
 import sttp.client3.httpclient.zio.HttpClientZioBackend
 import zio._
 import zio.interop.catz._

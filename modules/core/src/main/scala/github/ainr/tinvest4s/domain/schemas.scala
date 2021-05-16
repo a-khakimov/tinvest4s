@@ -11,7 +11,8 @@ object schemas {
   type Balance = Double
   type Lots = Int;
 
-  trait Response;
+  sealed trait Response
+  final class EmptyResponse() extends Response
 
   case class MoneyAmount(currency: String, value: Double)
 

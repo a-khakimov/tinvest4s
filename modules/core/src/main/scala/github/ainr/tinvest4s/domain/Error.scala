@@ -1,7 +1,6 @@
 package github.ainr.tinvest4s.domain
 
 /**
- *
  * @param trackingId
  * @param status
  * @param payload
