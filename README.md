@@ -1,15 +1,27 @@
+# tinvest4s
+
 ![Scala CI](https://github.com/a-khakimov/tinvest4s/workflows/Scala%20CI/badge.svg?branch=main)
 [![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=a-khakimov_tinvest4s&metric=ncloc)](https://sonarcloud.io/dashboard?id=a-khakimov_tinvest4s)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=a-khakimov_tinvest4s&metric=coverage)](https://sonarcloud.io/dashboard?id=a-khakimov_tinvest4s)
 [![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=a-khakimov_tinvest4s&metric=sqale_index)](https://sonarcloud.io/dashboard?id=a-khakimov_tinvest4s)
 
-# tinvest4s
+<img align="right" src="images/tinvest4s.logo.ico"/>
 
 Библиотека предназначена для взаимодействия с [ОpenAPI Тинькофф Инвестиций](https://tinkoffcreditsystems.github.io/invest-openapi/).
 
 ## Начало работы
 
 Для работы с библиотекой потребуется изучить [документацию](https://tinkoffcreditsystems.github.io/invest-openapi/) на ОpenAPI и получить в [личном кабинете](https://www.tinkoff.ru/invest/) токен для авторизации.
+
+## Список реализованных методов
+
+| Сделано? | Метод                  |        |
+| :------: |:-----------------------|--------|
+| [x]      | /portfolio             |        |
+| [ ]      | /portfolio/currencies  |        |
+| [x]      | /orders/limit-order    |        |
+| [x]      | /orders/market-order   |        |
+| [ ]      | /orders/cancel         |        |
 
 ## Подключение библиотеки к проекту
 
