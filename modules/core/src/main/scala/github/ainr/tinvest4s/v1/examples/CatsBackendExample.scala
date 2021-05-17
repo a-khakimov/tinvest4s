@@ -1,4 +1,4 @@
-package github.ainr.tinvest4s.v1.test
+package github.ainr.tinvest4s.v1.examples
 
 import cats.Monad
 import cats.effect.{Concurrent, ContextShift, ExitCode, IO, IOApp, Resource, Sync}
@@ -13,22 +13,25 @@ object CatsBackendExample extends IOApp {
 
   override def run(args: List[String]): IO[ExitCode] = {
     createClient[IO]()
-      .use { investApi => for {
-        portfolio         <- investApi.portfolio()
-        _                 <- IO.delay(println(portfolio))
-        limitOrderResult  <- investApi.limitOrder("BBG005HLSZ23", 1, Operation.Buy, 10)
-        _                 <- IO.delay(println(limitOrderResult))
-        marketOrderResult <- investApi.marketOrder("BBG005HLSZ23", 1, Operation.Sell)
-        _                 <- IO.delay(println(marketOrderResult))
-      } yield ExitCode.Success
-    }
+      .use { investApi =>
+        for {
+          portfolio <- investApi.portfolio()
+          _ <- IO.delay(println(portfolio))
+          limitOrderResult <- investApi.limitOrder("BBG005HLSZ23", 1, Operation.Buy, 10)
+          _ <- IO.delay(println(limitOrderResult))
+          marketOrderResult <- investApi.marketOrder("BBG005HLSZ23", 1, Operation.Sell)
+          _ <- IO.delay(println(marketOrderResult))
+        } yield ExitCode.Success
+      }
   }
 
-  def createClient[F[_]: Sync: Monad: Concurrent: ContextShift](): Resource[F, InvestApiClient[F]] = {
+  def createClient[F[_] : Sync : Monad : Concurrent : ContextShift](): Resource[F, InvestApiClient[F]] = {
     val config = InvestAccessConfig(token = "t.kkxK5DlAIBodw5moQBIDF1zKSMD-Ov4Kfr5hrBSrTRaxOcRTaeSVKYIdiZXsbSuakLyq9fUK0NUe672oItp6xA")
+
     def errorHandler(error: InvestApiResponseError): Unit = {
       println(error)
     }
+
     AsyncHttpClientCatsBackend.resource().map {
       backend => new InvestApiSttpClient[F](config, backend)(errorHandler)
     }
