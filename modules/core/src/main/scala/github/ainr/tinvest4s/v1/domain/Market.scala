@@ -1,7 +1,7 @@
-package github.ainr.tinvest4s.domain
+package github.ainr.tinvest4s.v1.domain
 
-import github.ainr.tinvest4s.domain.TradeStatus.TradeStatus
-import github.ainr.tinvest4s.domain.schemas.{CandleResolution, FIGI, Price, TrackingId}
+import github.ainr.tinvest4s.v1.domain.TradeStatus.TradeStatus
+import github.ainr.tinvest4s.v1.domain.schemas.{CandleResolution, FIGI, Price, TrackingId}
 
 
 case class MarketInstrumentListResponse(trackingId: String, status: String, payload: MarketInstrumentList)

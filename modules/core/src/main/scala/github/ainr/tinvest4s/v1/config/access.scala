@@ -1,4 +1,4 @@
-package github.ainr.tinvest4s.config
+package github.ainr.tinvest4s.v1.config
 
 object access {
   type Token = String

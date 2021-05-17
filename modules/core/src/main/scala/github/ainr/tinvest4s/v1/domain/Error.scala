@@ -1,4 +1,4 @@
-package github.ainr.tinvest4s.domain
+package github.ainr.tinvest4s.v1.domain
 
 /**
  * @param trackingId

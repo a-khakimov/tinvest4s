@@ -1,6 +1,6 @@
-package github.ainr.tinvest4s.http.client
+package github.ainr.tinvest4s.v1.http.client
 
-import github.ainr.tinvest4s.domain.schemas.{BrokerAccountId, FIGI, Lots, Operation, OrderResponse, PortfolioResponse, Price}
+import github.ainr.tinvest4s.v1.domain.schemas.{BrokerAccountId, FIGI, Lots, Operation, OrderResponse, PortfolioResponse, Price}
 
 trait InvestApiClient[F[_]] {
 

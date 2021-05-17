@@ -1,13 +1,13 @@
-package github.ainr.tinvest4s.http.client.interpreters
+package github.ainr.tinvest4s.v1.http.client.interpreters
 
 import cats.Monad
 import cats.syntax.all._
-import github.ainr.tinvest4s.config.access.{InvestAccessConfig, Token}
-import github.ainr.tinvest4s.domain.schemas.{Response => _, _}
-import github.ainr.tinvest4s.domain.{InvestApiError, schemas}
-import github.ainr.tinvest4s.http.client.InvestApiClient
-import github.ainr.tinvest4s.http.client.interpreters.InvestApiSttpClient.InvestApiResponseError
-import github.ainr.tinvest4s.http.json._
+import github.ainr.tinvest4s.v1.config.access.{InvestAccessConfig, Token}
+import github.ainr.tinvest4s.v1.domain.schemas.{Response => _, _}
+import github.ainr.tinvest4s.v1.domain.{InvestApiError, schemas}
+import github.ainr.tinvest4s.v1.http.client.InvestApiClient
+import github.ainr.tinvest4s.v1.http.client.interpreters.InvestApiSttpClient.InvestApiResponseError
+import github.ainr.tinvest4s.v1.http.json._
 import io.circe
 import sttp.client3._
 import sttp.client3.circe._

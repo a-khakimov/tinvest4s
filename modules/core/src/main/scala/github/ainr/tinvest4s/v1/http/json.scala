@@ -1,19 +1,15 @@
-package github.ainr.tinvest4s.http
+package github.ainr.tinvest4s.v1.http
 
-import github.ainr.tinvest4s.domain.schemas.{Operation, _}
-import github.ainr.tinvest4s.domain.{InvestApiError, InvestApiErrorPayload}
-import io.circe.{Decoder, Encoder}
+import github.ainr.tinvest4s.v1.domain.schemas._
+import github.ainr.tinvest4s.v1.domain.{InvestApiError, InvestApiErrorPayload}
 import io.circe.generic.semiauto.{deriveDecoder, deriveEncoder}
+import io.circe.{Decoder, Encoder}
 
 object json extends JsonCodecs {
 
 }
 
 private[http] trait JsonCodecs {
-
-
-  implicit val currencyAmountDecoder: Decoder[Currency] = deriveDecoder[Currency]
-  implicit val currencyAmountEncoder: Encoder[Currency] = deriveEncoder[Currency]
 
   implicit val moneyAmountDecoder: Decoder[MoneyAmount] = deriveDecoder
   implicit val moneyAmountEncoder: Encoder[MoneyAmount] = deriveEncoder
@@ -24,14 +20,8 @@ private[http] trait JsonCodecs {
   implicit val portfolioDecoder: Decoder[Portfolio] = deriveDecoder
   implicit val portfolioEncoder: Encoder[Portfolio] = deriveEncoder
 
-  implicit val operationDecoder: Decoder[Operation] = deriveDecoder
-  implicit val operationEncoder: Encoder[Operation] = deriveEncoder
-
   implicit val portfolioResponseDecoder: Decoder[PortfolioResponse] = deriveDecoder
   implicit val portfolioResponseEncoder: Encoder[PortfolioResponse] = deriveEncoder
-
-  implicit val orderStatusDecoder: Decoder[OrderStatus] = deriveDecoder
-  implicit val orderStatusEncoder: Encoder[OrderStatus] = deriveEncoder
 
   implicit val placedOrderDecoder: Decoder[PlacedOrder] = deriveDecoder
   implicit val placedOrderEncoder: Encoder[PlacedOrder] = deriveEncoder

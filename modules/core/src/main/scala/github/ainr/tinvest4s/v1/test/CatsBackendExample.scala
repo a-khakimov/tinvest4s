@@ -1,12 +1,12 @@
-package github.ainr.tinvest4s.test
+package github.ainr.tinvest4s.v1.test
 
 import cats.Monad
 import cats.effect.{Concurrent, ContextShift, ExitCode, IO, IOApp, Resource, Sync}
-import github.ainr.tinvest4s.config.access.InvestAccessConfig
-import github.ainr.tinvest4s.domain.schemas.Operation
-import github.ainr.tinvest4s.http.client.InvestApiClient
-import github.ainr.tinvest4s.http.client.interpreters.InvestApiSttpClient
-import github.ainr.tinvest4s.http.client.interpreters.InvestApiSttpClient.InvestApiResponseError
+import github.ainr.tinvest4s.v1.config.access.InvestAccessConfig
+import github.ainr.tinvest4s.v1.domain.schemas.Operation
+import github.ainr.tinvest4s.v1.http.client.InvestApiClient
+import github.ainr.tinvest4s.v1.http.client.interpreters.InvestApiSttpClient
+import github.ainr.tinvest4s.v1.http.client.interpreters.InvestApiSttpClient.InvestApiResponseError
 import sttp.client3.asynchttpclient.cats.AsyncHttpClientCatsBackend
 
 object CatsBackendExample extends IOApp {
@@ -16,9 +16,9 @@ object CatsBackendExample extends IOApp {
       .use { investApi => for {
         portfolio         <- investApi.portfolio()
         _                 <- IO.delay(println(portfolio))
-        limitOrderResult  <- investApi.limitOrder("BBG005HLSZ23", 1, Operation.Buy(), 10)
+        limitOrderResult  <- investApi.limitOrder("BBG005HLSZ23", 1, Operation.Buy, 10)
         _                 <- IO.delay(println(limitOrderResult))
-        marketOrderResult <- investApi.marketOrder("BBG005HLSZ23", 1, Operation.Buy())
+        marketOrderResult <- investApi.marketOrder("BBG005HLSZ23", 1, Operation.Sell)
         _                 <- IO.delay(println(marketOrderResult))
       } yield ExitCode.Success
     }

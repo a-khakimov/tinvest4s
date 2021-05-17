@@ -1,8 +1,8 @@
 package v1.api
 
-import github.ainr.tinvest4s.domain.{InvestApiError, InvestApiErrorPayload}
-import github.ainr.tinvest4s.domain.schemas.{Portfolio, PortfolioPosition, PortfolioResponse}
-import github.ainr.tinvest4s.http.client.interpreters.InvestApiSttpClient.InvestApiResponseError
+import github.ainr.tinvest4s.v1.domain.{InvestApiError, InvestApiErrorPayload}
+import github.ainr.tinvest4s.v1.domain.schemas.{Portfolio, PortfolioPosition, PortfolioResponse}
+import github.ainr.tinvest4s.v1.http.client.interpreters.InvestApiSttpClient.InvestApiResponseError
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers
 import sttp.client3.HttpError
@@ -10,7 +10,7 @@ import sttp.client3.testing.SttpBackendStub
 import sttp.model.StatusCode
 import v1.api.client.TestInvestApiClient
 
-class PortfolioSpec extends AnyFlatSpec with Matchers with TestInvestApiClient {
+class PortfolioMethodSpec extends AnyFlatSpec with Matchers with TestInvestApiClient {
 
   behavior of "InvestApiClient"
 
